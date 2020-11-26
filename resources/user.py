@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from models.user import UserModel
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(Resource):
     parser = reqparse.RequestParser()
@@ -32,10 +33,12 @@ class User(Resource):
 
         data = User.parser.parse_args()
 
+        hashed_password = generate_password_hash(data['password'], method='sha256')
+
         user = UserModel(username=username,
                  first_name=data['first_name'],
                  last_name=data['last_name'],
-                 password=data['password'],
+                 password=hashed_password,
                  user_created=datetime.utcnow())
 
         try:
@@ -76,4 +79,4 @@ class User(Resource):
 
 class UserList(Resource):
     def get(self):
-        return {'users': [user.upd_json() for user in UserModel.query.all()]}
+        return {'users': [user.json() for user in UserModel.query.all()]}

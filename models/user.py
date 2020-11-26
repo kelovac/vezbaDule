@@ -1,6 +1,6 @@
 from db import db
 from datetime import datetime
-from sqlalchemy.dialects.postgresql import JSON
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class UserModel(db.Model):
     __tablename__ = 'users'
@@ -38,6 +38,14 @@ class UserModel(db.Model):
                 'password': self.password,
                 'user_created': self.user_created.strftime('%Y-%m-%d %H:%M:%S'),
                 'user_updated': self.user_updated.strftime('%Y-%m-%d %H:%M:%S')}
+
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
 
     @classmethod
     def find_by_username(cls, username):
