@@ -46,7 +46,6 @@ class UserModel(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-
     @classmethod
     def find_by_username(cls, username):
         return cls.query.filter_by(username=username).first()

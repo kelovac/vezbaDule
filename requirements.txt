@@ -3,6 +3,7 @@ aniso8601==8.0.0
 click==7.1.2
 Flask==1.1.2
 Flask-JWT==0.3.2
+Flask-JWT-Extended
 Flask-Migrate==2.5.2
 Flask-RESTful==0.3.8
 Flask-Script==2.0.6

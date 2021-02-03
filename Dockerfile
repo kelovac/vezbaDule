@@ -11,6 +11,6 @@ COPY . .
 ENV APP_SETTINGS=${APP_SETTINGS}
 ENV DATABASE_URL=${DATABASE_URL}
 
-CMD [ "python", ".app.py" ]
+CMD [ "python", "app.py" ]
 
 EXPOSE 5000

@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, jsonify, flash, session
+from flask import Flask, request, jsonify
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from db import db
@@ -13,6 +13,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 api = Api(app)
 db.init_app(app)
 
+
 @app.before_first_request
 def create_table():
     db.create_all()
@@ -20,6 +21,7 @@ def create_table():
 
 api.add_resource(User, '/user/<string:username>')
 api.add_resource(UserList, '/users')
+
 
 @app.route('/login', methods=['POST', 'GET', 'PUT', 'DELETE'])
 def login():
@@ -37,11 +39,14 @@ def login():
         else:
             return jsonify({"response": "Invalid username or password."}), 400
     return jsonify({"error": "Please use post method"}), 405
+
+
 #"""
 #prima username i password
 #proverava u bazi da li su validni
 #i vraca True ili False
 #"""
 
+
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

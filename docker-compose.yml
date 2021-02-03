@@ -1,6 +1,29 @@
-version: "3.7.9"
+version: "3.8"
 services:
   web:
+    environment:
+      APP_SETTINGS: ${APP_SETTINGS}
+      DATABASE_URL: ${DATABASE_URL}
+    container_name: users
     build: .
     ports:
       - "5000:5000"
+    networks:
+      - dadova-mreza
+    volumes:
+      - "./migrations:/usr/src/app/migrations"
+  postgres_users:
+    environment:
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "users"
+    image: 'postgres'
+    ports:
+      - "5435:5432"
+    networks:
+      - dadova-mreza
+    volumes:
+      - "./database:/var/lib/postgresql/data"
+networks:
+  dadova-mreza:
+    external:
+      name: dadova-mreza
